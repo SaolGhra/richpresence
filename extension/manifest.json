@@ -5,12 +5,15 @@
   "description": "Displays currently playing media on Discord as rich presence.",
   "permissions": ["activeTab", "storage", "scripting"],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"],
+    "persistent": true
   },
+  "author": "SaolGhra",
   "content_scripts": [
     {
       "matches": ["*://music.youtube.com/*"],
-      "js": ["content.js"]
+      "js": ["content.js"],
+      "run_at": "document_end"
     }
   ],
   "icons": {

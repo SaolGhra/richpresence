@@ -1,7 +1,9 @@
+// Logging when the extension is installed
 chrome.runtime.onInstalled.addListener(() => {
   console.log("Music Rich Presence installed");
 });
 
+// Listening for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "mediaUpdate") {
     const mediaInfo = message.mediaInfo;
@@ -26,3 +28,6 @@ function updatePresence(mediaInfo) {
   });
   rpc.login({ clientId }).catch(console.error);
 }
+
+// Logging when the extension's background script is loaded
+console.log("Background script loaded");

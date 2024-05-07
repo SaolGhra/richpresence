@@ -2,21 +2,16 @@
 
 // Function to send media info to the background script
 function sendMediaInfoToBackground(mediaInfo) {
-  if (chrome && chrome.runtime) {
-    chrome.runtime.sendMessage(
-      { type: "mediaUpdate", mediaInfo: mediaInfo },
-      function (response) {
-        if (chrome.runtime.lastError) {
-          console.error(
-            "Error sending message:",
-            chrome.runtime.lastError.message
-          );
-        }
+  chrome.runtime.sendMessage(
+    { type: "mediaUpdate", mediaInfo: mediaInfo },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        console.log(response);
       }
-    );
-  } else {
-    console.error("Chrome runtime is not available.");
-  }
+    }
+  );
 }
 
 // Function to extract media information from the page

@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "mediaUpdate") {
     const mediaInfo = message.mediaInfo;
-    // Handle the received media info here
+    // Log the media info to check if the URL is provided
     console.log("Received media update:", mediaInfo);
     // Example: You can send the media info to the Discord RPC client
     updatePresence(mediaInfo);

@@ -9,17 +9,29 @@ const rpc = new DiscordRPC.Client({ transport: "ipc" });
 const app = express();
 app.use(bodyParser.json());
 
+let songInfo = {
+  title: "Song Title",
+  artist: "Song Artist",
+  // Add more properties as needed...
+};
+
 app.post("/updateRichPresence", (req, res) => {
-  const songInfo = req.body;
+  const receivedSongInfo = req.body;
+  console.log("Received song info:", receivedSongInfo);
+  // Update the songInfo object with the received data
+  songInfo = receivedSongInfo;
   updateRichPresence(songInfo);
   res.sendStatus(200);
+});
+
+app.get("/updateRichPresence", (req, res) => {
+  // Return the current songInfo object
+  res.json(songInfo);
 });
 
 rpc.on("ready", () => {
   console.log("Discord RPC connected");
 });
-
-rpc.login({ clientId }).catch(console.error);
 
 function updateRichPresence(songInfo) {
   rpc.setActivity({

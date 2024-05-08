@@ -5,8 +5,7 @@
   "description": "Displays currently playing media on Discord as rich presence.",
   "permissions": ["activeTab", "storage", "scripting"],
   "background": {
-    "scripts": ["background.js"],
-    "persistent": true
+    "service_worker": "background.js"
   },
   "author": "SaolGhra",
   "content_scripts": [
@@ -24,5 +23,8 @@
     "default_icon": {
       "512": "icon512.png"
     }
+  },
+  "externally_connectable": {
+    "matches": ["*://music.youtube.com/*"]
   }
 }

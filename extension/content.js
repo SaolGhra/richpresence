@@ -2,16 +2,20 @@
 
 // Function to send media info to the background script
 function sendMediaInfoToBackground(mediaInfo) {
-  chrome.runtime.sendMessage(
-    { type: "mediaUpdate", mediaInfo: mediaInfo },
-    (response) => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError.message);
-      } else {
-        console.log(response);
+  if (typeof chrome.runtime.sendMessage === "function") {
+    chrome.runtime.sendMessage(
+      { type: "mediaUpdate", mediaInfo: mediaInfo },
+      (response) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError.message);
+        } else {
+          console.log(response);
+        }
       }
-    }
-  );
+    );
+  } else {
+    console.error("Extension context invalidated");
+  }
 }
 
 // Function to extract media information from the page
@@ -63,7 +67,7 @@ function extractMediaInfo() {
     }
   }
 
-  return {
+  const mediaInfo = {
     thumbnail,
     title,
     artist,
@@ -73,6 +77,10 @@ function extractMediaInfo() {
     total: timestampToSeconds(total),
     url,
   };
+
+  console.log("Media Info:", mediaInfo);
+
+  return mediaInfo;
 }
 
 function timestampToSeconds(timestamp) {

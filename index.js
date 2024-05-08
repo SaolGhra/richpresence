@@ -21,7 +21,6 @@ app.post("/updateRichPresence", (req, res) => {
   console.log("Received song info:", receivedSongInfo);
   songInfo = receivedSongInfo;
   updateRichPresence(songInfo);
-  // Push updated song info to all WebSocket clients
   wsClients.forEach((client) => {
     client.send(JSON.stringify(songInfo));
   });
@@ -47,7 +46,6 @@ function updateRichPresence(songInfo) {
   const elapsedSeconds = songInfo.elapsed || 0;
   const totalSeconds = songInfo.total || 0;
 
-  // Calculate elapsed and total time in minutes and seconds
   const elapsedMinutes = Math.floor(elapsedSeconds / 60);
   const elapsedSecondsRemainder = elapsedSeconds % 60;
   const totalMinutes = Math.floor(totalSeconds / 60);
@@ -61,7 +59,7 @@ function updateRichPresence(songInfo) {
     .toString()
     .padStart(2, "0")}`;
 
-  const progressBarLength = 30;
+  const progressBarLength = 5;
   const elapsedPercentage = (elapsedSeconds / totalSeconds) * 100;
   const elapsedProgressBarLength = Math.floor(
     (elapsedPercentage / 100) * progressBarLength
@@ -74,36 +72,39 @@ function updateRichPresence(songInfo) {
     "•".repeat(elapsedProgressBarLength) +
     "—".repeat(remainingProgressBarLength);
 
-  // Get current system time in milliseconds
   const currentTime = new Date().getTime();
 
-  // Calculate elapsed time using system time
   const startTime = currentTime - elapsedSeconds * 1000;
+  const endTime = startTime + totalSeconds * 1000;
 
-  // Construct progress bar and timeline
   const progressBarAndTimeline = `${progressBar} | ${elapsedFormatted} / ${totalFormatted}`;
+
+  if (songInfo.isPlaying == true) {
+    var tinyImage = "./assets/play.png";
+  } else {
+    var tinyImage = "./assets/pause.png";
+  }
+
+  console.log("Small Image Key:", tinyImage);
 
   // Set Rich Presence
   rpc.setActivity({
     ActivityType: "Listening to YouTube Music",
-    details: `${elapsedFormatted} / ${totalFormatted} - ${
-      songInfo.artist || ""
-    }`,
-    state: `${songInfo.title || ""}\n-\n${songInfo.album || ""}`,
+    details: `${songInfo.title || ""}\n-\n${songInfo.album || ""}`,
+    state: `${songInfo.artist || ""}\n${progressBarAndTimeline}`,
     largeImageKey: songInfo.thumbnail,
     largeImageText: songInfo.title || "",
-    smallImageKey: "youtube_music_logo",
+    smallImageKey: tinyImage,
     smallImageText: `${songInfo.isPlaying ? "Playing" : "Paused"}`,
     buttons: [{ label: "YouTube Music", url: songInfo.url }],
     instance: false,
     party: { id: "party_id" },
-    timestamps: {
-      startTimestamp: startTime,
-    },
+    startTimestamp: startTime,
+    endTimestamp: endTime,
     assets: {
-      largeImage: "youtube_music_logo",
-      largeText: "YouTube Music",
-      smallImage: songInfo.isPlaying ? "play_icon" : "pause_icon",
+      largeImage: songInfo.thumbnail,
+      largeText: songInfo.title || "",
+      smallImage: tinyImage,
       smallText: songInfo.isPlaying ? "Playing" : "Paused",
     },
     secrets: {

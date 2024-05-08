@@ -4,7 +4,6 @@ depricated/
 
 # files
 package-lock.json
-package.json
 prompt.txt
 config.json
 main.py

@@ -1,0 +1,31 @@
+{
+  "name": "ytrichpresence",
+  "version": "1.0.9",
+  "description": "A youtube music rich presence for discord",
+  "main": "index.js",
+  "dependencies": {
+    "active-win": "^9.0.0",
+    "bindings": "^1.5.0",
+    "cors": "^2.8.5",
+    "discord-rich-presence": "^0.0.8",
+    "discord-rpc": "^4.0.1",
+    "encoding": "^0.1.13",
+    "express": "^4.19.2",
+    "file-uri-to-path": "^1.0.0",
+    "iconv-lite": "^0.6.3",
+    "node-addon-api": "^1.7.2",
+    "node-fetch": "^2.7.0",
+    "puppeteer": "^22.8.0",
+    "register-scheme": "^0.0.2",
+    "safer-buffer": "^2.1.2",
+    "tr46": "^0.0.3",
+    "webidl-conversions": "^3.0.1",
+    "whatwg-url": "^5.0.0",
+    "ws": "^7.5.9"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SaolGhra",
+  "license": "ISC"
+}

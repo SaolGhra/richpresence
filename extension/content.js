@@ -33,6 +33,19 @@ function sendMediaInfoToServer(mediaInfo) {
     });
 }
 
+function extractSongUrlFromPageUrl(pageUrl) {
+  // Split the URL by '&' to separate parameters
+  const params = pageUrl.split("&");
+
+  // Filter out any parameters related to playlists
+  const filteredParams = params.filter((param) => !param.startsWith("list="));
+
+  // Join the remaining parameters back into a URL
+  const songUrl = filteredParams.join("&");
+
+  return songUrl;
+}
+
 // Function to extract media information from the page
 function extractMediaInfo() {
   const playerBar = document.querySelector("ytmusic-player-bar");
@@ -68,19 +81,8 @@ function extractMediaInfo() {
        ytmusic-responsive-list-item-renderer.ytmusic-playlist-shelf-renderer[play-button-state="paused"]`
   );
 
-  let url;
-
-  if (listItem) {
-    const el = listItem.querySelector(
-      "yt-formatted-string.title.ytmusic-responsive-list-item-renderer"
-    );
-    if (el) {
-      const a = el.querySelector("a");
-      if (a) {
-        url = a.href;
-      }
-    }
-  }
+  const pageUrl = window.location.href;
+  const songUrl = extractSongUrlFromPageUrl(pageUrl);
 
   const mediaInfo = {
     thumbnail,
@@ -90,10 +92,10 @@ function extractMediaInfo() {
     isPlaying,
     elapsed: timestampToSeconds(elapsed),
     total: timestampToSeconds(total),
-    url,
+    url: songUrl,
   };
 
-  console.log("Media Info:", mediaInfo);
+  // console.log("Media Info:", mediaInfo);
 
   return mediaInfo;
 }

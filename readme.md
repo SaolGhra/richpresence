@@ -1,5 +1,7 @@
 # Discord Rich Presence for YouTube Music
 
+![GitHub Repo stars](https://img.shields.io/github/stars/saolghra/richpresence?style=for-the-badge)
+
 This project is a JavaScript-based Discord Rich Presence integration for YouTube Music. It also includes a custom-made Google Extension.
 
 ## Features
@@ -48,3 +50,15 @@ Before you can use this integration, make sure you have the following:
    ```
 
 7. Open Discord and start playing music on YouTube Music. Your Discord status should now update with the currently playing song.
+
+## Example
+
+## Example
+
+Here is how it looks when the integration is running in the console:
+
+![Running](assets/runningfile.png)
+
+And here is how the rich presence will look once started:
+
+![How it looks on discord](assets/howitlooks.png)

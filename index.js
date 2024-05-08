@@ -18,7 +18,7 @@ let wsClients = [];
 
 app.post("/updateRichPresence", (req, res) => {
   const receivedSongInfo = req.body;
-  console.log("Received song info:", receivedSongInfo);
+  // console.log("Received song info:", receivedSongInfo);
   songInfo = receivedSongInfo;
   updateRichPresence(songInfo);
   wsClients.forEach((client) => {
@@ -84,8 +84,6 @@ function updateRichPresence(songInfo) {
   } else {
     var tinyImage = "./assets/pause.png";
   }
-
-  console.log("Small Image Key:", tinyImage);
 
   // Set Rich Presence
   rpc.setActivity({

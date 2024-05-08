@@ -2,20 +2,35 @@
 
 // Function to send media info to the background script
 function sendMediaInfoToBackground(mediaInfo) {
-  if (typeof chrome.runtime.sendMessage === "function") {
-    chrome.runtime.sendMessage(
-      { type: "mediaUpdate", mediaInfo: mediaInfo },
-      (response) => {
-        if (chrome.runtime.lastError) {
-          console.error(chrome.runtime.lastError.message);
-        } else {
-          console.log(response);
-        }
+  chrome.runtime.sendMessage(
+    { type: "mediaUpdate", mediaInfo: mediaInfo },
+    (response) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError.message);
+      } else {
+        console.log(response);
       }
-    );
-  } else {
-    console.error("Extension context invalidated");
-  }
+    }
+  );
+}
+
+function sendMediaInfoToServer(mediaInfo) {
+  fetch("http://localhost:3000/updateRichPresence", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(mediaInfo),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to send media info to server");
+      }
+      console.log("Media info sent successfully to server");
+    })
+    .catch((error) => {
+      console.error("Error sending media info to server:", error);
+    });
 }
 
 // Function to extract media information from the page
@@ -160,6 +175,7 @@ setInterval(function () {
   const mediaInfo = extractMediaInfo();
   if (mediaInfo) {
     sendMediaInfoToBackground(mediaInfo);
+    sendMediaInfoToServer(mediaInfo);
   }
 }, 5000);
 

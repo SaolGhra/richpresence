@@ -53,8 +53,6 @@ Before you can use this integration, make sure you have the following:
 
 ## Example
 
-## Example
-
 Here is how it looks when the integration is running in the console:
 
 ![Running](assets/runningfile.png)

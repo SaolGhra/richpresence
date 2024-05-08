@@ -18,7 +18,7 @@ let wsClients = [];
 
 app.post("/updateRichPresence", (req, res) => {
   const receivedSongInfo = req.body;
-  // console.log("Received song info:", receivedSongInfo);
+  console.log("Received song info:", receivedSongInfo);
   songInfo = receivedSongInfo;
   updateRichPresence(songInfo);
   wsClients.forEach((client) => {
@@ -79,11 +79,9 @@ function updateRichPresence(songInfo) {
 
   const progressBarAndTimeline = `${progressBar} | ${elapsedFormatted} / ${totalFormatted}`;
 
-  if (songInfo.isPlaying == true) {
-    var tinyImage = "./assets/play.png";
-  } else {
-    var tinyImage = "./assets/pause.png";
-  }
+  const tinyimage = songInfo.isPlaying
+    ? "https://raw.githubusercontent.com/SaolGhra/richpresence/main/assets/pause60.png"
+    : "https://raw.githubusercontent.com/SaolGhra/richpresence/main/assets/play60.png";
 
   // Set Rich Presence
   rpc.setActivity({
@@ -92,7 +90,7 @@ function updateRichPresence(songInfo) {
     state: `${songInfo.artist || ""}\n${progressBarAndTimeline}`,
     largeImageKey: songInfo.thumbnail,
     largeImageText: songInfo.title || "",
-    smallImageKey: tinyImage,
+    smallImageKey: tinyimage,
     smallImageText: `${songInfo.isPlaying ? "Playing" : "Paused"}`,
     buttons: [{ label: "YouTube Music", url: songInfo.url }],
     instance: false,
@@ -102,7 +100,7 @@ function updateRichPresence(songInfo) {
     assets: {
       largeImage: songInfo.thumbnail,
       largeText: songInfo.title || "",
-      smallImage: tinyImage,
+      smallImageKey: tinyimage,
       smallText: songInfo.isPlaying ? "Playing" : "Paused",
     },
     secrets: {

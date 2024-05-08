@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Music Rich Presence",
-  "version": "1.0",
-  "description": "Displays currently playing media on Discord as rich presence.",
+  "name": "Youtube Music Rich Presence for discord",
+  "version": "1.0.7",
+  "description": "Displays currently playing media on Discord as rich presence - By SaolGhra",
   "permissions": ["activeTab", "storage", "scripting"],
   "background": {
     "service_worker": "background.js"

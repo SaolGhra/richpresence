@@ -179,7 +179,7 @@ setInterval(function () {
     sendMediaInfoToBackground(mediaInfo);
     sendMediaInfoToServer(mediaInfo);
   }
-}, 5000);
+}, 1000);
 
 // Initial update of presence
 updatePresence();

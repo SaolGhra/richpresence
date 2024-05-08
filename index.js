@@ -32,15 +32,13 @@ app.post("/updateRichPresence", (req, res) => {
 const wss = new WebSocket.Server({ port: PORT + 1 });
 
 wss.on("connection", function connection(ws) {
-  // Add client to WebSocket clients list
   wsClients.push(ws);
-  // Send current song info to newly connected client
   ws.send(JSON.stringify(songInfo));
   ws.on("close", function close() {
-    // Remove client from WebSocket clients list when connection closes
     wsClients = wsClients.filter((client) => client !== ws);
   });
 });
+
 rpc.on("ready", () => {
   console.log("Discord RPC connected");
 });
@@ -76,6 +74,12 @@ function updateRichPresence(songInfo) {
     "•".repeat(elapsedProgressBarLength) +
     "—".repeat(remainingProgressBarLength);
 
+  // Get current system time in milliseconds
+  const currentTime = new Date().getTime();
+
+  // Calculate elapsed time using system time
+  const startTime = currentTime - elapsedSeconds * 1000;
+
   // Construct progress bar and timeline
   const progressBarAndTimeline = `${progressBar} | ${elapsedFormatted} / ${totalFormatted}`;
 
@@ -94,9 +98,7 @@ function updateRichPresence(songInfo) {
     instance: false,
     party: { id: "party_id" },
     timestamps: {
-      startTimestamp: songInfo.startTimestamp,
-      endTimestamp: songInfo.endTimestamp,
-      elapsed: elapsedSeconds,
+      startTimestamp: startTime,
     },
     assets: {
       largeImage: "youtube_music_logo",

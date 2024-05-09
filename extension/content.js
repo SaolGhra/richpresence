@@ -57,15 +57,18 @@ function extractMediaInfo() {
   if (!outer) return null;
 
   const thumbnail = playerBar.querySelector("img.ytmusic-player-bar").src;
-  const title = playerBar.querySelector(
+
+  // Extracting title without HTML tags
+  const titleElement = playerBar.querySelector(
     "yt-formatted-string.title.ytmusic-player-bar"
-  ).innerHTML;
+  );
+  const title = titleElement ? titleElement.textContent : "";
 
   const items = outer.querySelectorAll(
     "a.yt-simple-endpoint.yt-formatted-string"
   );
-  const artist = items.item(0).innerHTML;
-  const album = items.item(1).innerHTML;
+  const artist = items.item(0).textContent;
+  const album = items.item(1).textContent;
 
   const leftControls = playerBar.querySelector(".left-controls");
   const playPauseButton = leftControls.querySelector("#play-pause-button");
@@ -75,11 +78,6 @@ function extractMediaInfo() {
     .querySelector("span.time-info.ytmusic-player-bar")
     .innerHTML.trim()
     .split(" / ");
-
-  const listItem = document.querySelector(
-    `ytmusic-responsive-list-item-renderer.ytmusic-playlist-shelf-renderer[play-button-state="playing"], 
-       ytmusic-responsive-list-item-renderer.ytmusic-playlist-shelf-renderer[play-button-state="paused"]`
-  );
 
   const pageUrl = window.location.href;
   const songUrl = extractSongUrlFromPageUrl(pageUrl);
@@ -94,8 +92,6 @@ function extractMediaInfo() {
     total: timestampToSeconds(total),
     url: songUrl,
   };
-
-  // console.log("Media Info:", mediaInfo);
 
   return mediaInfo;
 }

@@ -18,7 +18,7 @@ let wsClients = [];
 
 app.post("/updateRichPresence", (req, res) => {
   const receivedSongInfo = req.body;
-  // console.log("Received song info:", receivedSongInfo);
+  console.log("Received song info:", receivedSongInfo);
   songInfo = receivedSongInfo;
   updateRichPresence(songInfo);
   wsClients.forEach((client) => {

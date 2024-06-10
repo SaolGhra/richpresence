@@ -60,3 +60,8 @@ Here is how it looks when the integration is running in the console:
 And here is how the rich presence will look once started:
 
 ![How it looks on discord](assets/howitlooks.png)
+
+## Issues Known
+
+   - Console error spamming, (I will eventuall fix it, the current way to avoid it is to reload the page)
+   - Last i checked the extension doesn't work on Edge, could be a manifest issue
